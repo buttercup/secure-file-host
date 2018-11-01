@@ -1,0 +1,31 @@
+{
+  "name": "@buttercup/secure-file-host",
+  "version": "0.0.0",
+  "description": "Secure filesystem host toolkit for Browser-Desktop datasource connection",
+  "main": "source/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buttercup/secure-file-host.git"
+  },
+  "keywords": [
+    "filesystem",
+    "buttercup",
+    "host",
+    "datasource"
+  ],
+  "author": "Perry Mitchell <perry@perrymitchell.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buttercup/secure-file-host/issues"
+  },
+  "homepage": "https://github.com/buttercup/secure-file-host#readme",
+  "dependencies": {
+    "eventemitter3": "^3.1.0",
+    "express": "^4.16.4",
+    "hot-patcher": "^0.4.0",
+    "iocane": "^1.0.2"
+  }
+}
