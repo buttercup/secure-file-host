@@ -1,7 +1,7 @@
 const EventEmitter = require("eventemitter3");
 const express = require("express");
 const pkgInfo = require("../package.json");
-const { generateCipherKey, generateConnectCode } = require("./code.js");
+const { generateConnectCode } = require("./code.js");
 const { encryptString } = require("./crypto.js");
 
 const RESET_DELAY = 15000;
@@ -9,7 +9,7 @@ const SHOW_DURATION = 15000;
 
 let __host = null;
 
-function configureApp(app, emitter) {
+function configureApp(app, emitter, key) {
     let connectCode = null;
         busy = false,
         timer;
@@ -68,11 +68,8 @@ function configureApp(app, emitter) {
             const responseKey = connectCode;
             connectCode = null;
             busy = false;
-            const cipherKey = generateCipherKey();
-            emitter.emit("connected", {
-                key: cipherKey
-            });
-            encryptString(cipherKey, responseKey)
+            emitter.emit("connected");
+            encryptString(key, responseKey)
                 .then(encrypted => {
                     res.send(JSON.stringify({
                         status: "ok",
@@ -103,10 +100,10 @@ function configureApp(app, emitter) {
     });
 }
 
-function createHost(port) {
+function createHost(port, key) {
     const app = express();
     const emitter = new EventEmitter();
-    configureApp(app, emitter);
+    configureApp(app, emitter, key);
     __host = {
         app,
         emitter

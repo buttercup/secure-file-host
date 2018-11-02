@@ -25,7 +25,6 @@
   "dependencies": {
     "eventemitter3": "^3.1.0",
     "express": "^4.16.4",
-    "hot-patcher": "^0.4.0",
     "iocane": "^1.0.2"
   }
 }
