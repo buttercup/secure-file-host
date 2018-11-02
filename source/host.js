@@ -11,7 +11,7 @@ const SHOW_DURATION = 15000;
 let __host = null;
 
 function configureApp(app, emitter, key) {
-    let connectCode = null;
+    let connectCode = null,
         busy = false,
         timer;
     const timerReset = () => {
@@ -34,7 +34,7 @@ function configureApp(app, emitter, key) {
         res.send(JSON.stringify({
             type: "secure-file-host",
             status: "ok",
-            ready: !connectCode
+            ready: !busy
         }));
     });
     app.get("/connect", (req, res) => {
@@ -113,7 +113,7 @@ function configureApp(app, emitter, key) {
                             payload
                         }));
                     })
-                    .catch(err) {
+                    .catch(err => {
                         console.error(err);
                         res
                             .set("Content-Type", "text/plain")
@@ -143,7 +143,7 @@ function configureApp(app, emitter, key) {
                             payload
                         }));
                     })
-                    .catch(err) {
+                    .catch(err => {
                         console.error(err);
                         res
                             .set("Content-Type", "text/plain")
@@ -167,7 +167,7 @@ function configureApp(app, emitter, key) {
                     payload
                 }));
             })
-            .catch(err) {
+            .catch(err => {
                 console.error(err);
                 res
                     .set("Content-Type", "text/plain")
@@ -181,10 +181,14 @@ function createHost(port, key) {
     const app = express();
     const emitter = new EventEmitter();
     configureApp(app, emitter, key);
+    if (port) {
+        app.listen(port);
+    }
     __host = {
         app,
         emitter
     };
+    return __host;
 }
 
 function getHost() {
