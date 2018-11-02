@@ -17,10 +17,10 @@ function configureApp(app, emitter, key) {
         clearTimeout(timer);
         connectCode = null;
         busy = true;
-        emitter.emit("connectionAvailabilityChange", { available: false });
+        emitter.emit("connectionAvailabilityChanged", { available: false });
         timer = setTimeout(() => {
             busy = false;
-            emitter.emit("connectionAvailabilityChange", { available: true });
+            emitter.emit("connectionAvailabilityChanged", { available: true });
         }, RESET_DELAY);
     };
     app.disable("x-powered-by");
@@ -45,7 +45,7 @@ function configureApp(app, emitter, key) {
             return;
         }
         connectCode = generateConnectCode();
-        emitter.emit("presentCode", {
+        emitter.emit("codeReady", {
             code: connectCode
         });
         busy = true;
