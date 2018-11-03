@@ -54,5 +54,32 @@ describe("host", function() {
                         });
                 });
         });
+
+        it("emits 'codeReady' with connection code", done => {
+            host.emitter.once("codeReady", data => {
+                expect(data).to.have.property("code")
+                    .that.is.a("string")
+                    .that.matches(/^[A-Z0-9]{6}$/);
+                done();
+            });
+            request(host.app)
+                .get("/connect")
+                .end((err, res) => {
+                    if (err) return done(err);
+                });
+        });
+    });
+
+    describe("GET /connect/(code)", function() {
+        it("responds with 400 Bad Request if no code sequence has been started", done => {
+            request(host.app)
+                .get("/connect/ABC123")
+                .expect("Content-Type", /text\/plain/)
+                .expect(400)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
     });
 });
