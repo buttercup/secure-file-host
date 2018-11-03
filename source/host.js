@@ -1,5 +1,6 @@
 const EventEmitter = require("eventemitter3");
 const express = require("express");
+const bodyParser = require("body-parser");
 const pkgInfo = require("../package.json");
 const { generateConnectCode } = require("./code.js");
 const { decryptString, encryptString } = require("./crypto.js");
@@ -24,6 +25,7 @@ function configureHost(host, key) {
         }, RESET_DELAY);
     };
     app.disable("x-powered-by");
+    app.use(bodyParser.json());
     app.use((req, res, next) => {
         res.set("Content-Type", "application/json");
         res.set("Server", `Buttercup/SecureFileHost/${pkgInfo.version}`);

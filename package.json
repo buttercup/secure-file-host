@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/buttercup/secure-file-host#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "eventemitter3": "^3.1.0",
     "express": "^4.16.4",
     "home-dir": "^1.0.0",

@@ -1,6 +1,7 @@
+const path = require("path");
 const request = require("supertest");
 const { getNewApp } = require("../app.js");
-const { decryptString } = require("../../source/crypto.js");
+const { decryptString, encryptString } = require("../../source/crypto.js");
 
 describe("host", function() {
     let host;
@@ -112,6 +113,41 @@ describe("host", function() {
                                 })
                                 .catch(done);
                         });
+                });
+        });
+    });
+
+    describe("POST /get/directory", function() {
+        const TARGET_DIR = path.resolve(__dirname, "../assets");
+        let encryptedPayload;
+
+        beforeEach(function() {
+            return encryptString(TARGET_DIR, "testing")
+                .then(encrypted => {
+                    encryptedPayload = encrypted;
+                });
+        });
+
+        it("returns expected contents", done => {
+            request(host.app)
+                .post("/get/directory")
+                .send({
+                    payload: encryptedPayload
+                })
+                .expect("Content-Type", /application\/json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.body).to.have.property("status", "ok");
+                    decryptString(res.body.payload, "testing")
+                        .then(filesRaw => {
+                            const files = JSON.parse(filesRaw);
+                            expect(files).to.have.lengthOf(1);
+                            expect(files[0]).to.have.property("name", "getfile.txt");
+                            expect(files[0]).to.have.property("type", "file");
+                            done();
+                        })
+                        .catch(done);
                 });
         });
     });
