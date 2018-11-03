@@ -3,7 +3,7 @@ const request = require("supertest");
 const { getNewApp } = require("../app.js");
 const { decryptString, encryptString } = require("../../source/crypto.js");
 
-describe("host", function() {
+describe("API", function() {
     let host;
 
     beforeEach(function() {
