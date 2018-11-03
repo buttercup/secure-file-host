@@ -150,5 +150,65 @@ describe("host", function() {
                         .catch(done);
                 });
         });
+
+        it("responds with 401 Unauthorized if decryption of the payload fails", done => {
+            request(host.app)
+                .post("/get/directory")
+                .send({
+                    payload: "bad-payload"
+                })
+                .expect("Content-Type", /text\/plain/)
+                .expect(401)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
+    describe("POST /get/file", function() {
+        const TARGET_FILE = path.resolve(__dirname, "../assets/getfile.txt");
+        let encryptedPayload;
+
+        beforeEach(function() {
+            return encryptString(TARGET_FILE, "testing")
+                .then(encrypted => {
+                    encryptedPayload = encrypted;
+                });
+        });
+
+        it("returns expected contents", done => {
+            request(host.app)
+                .post("/get/file")
+                .send({
+                    payload: encryptedPayload
+                })
+                .expect("Content-Type", /application\/json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.body).to.have.property("status", "ok");
+                    decryptString(res.body.payload, "testing")
+                        .then(fileContents => {
+                            expect(fileContents.trim()).to.equal("test contents");
+                            done();
+                        })
+                        .catch(done);
+                });
+        });
+
+        it("responds with 401 Unauthorized if decryption of the payload fails", done => {
+            request(host.app)
+                .post("/get/file")
+                .send({
+                    payload: "bad-payload"
+                })
+                .expect("Content-Type", /text\/plain/)
+                .expect(401)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
     });
 });
