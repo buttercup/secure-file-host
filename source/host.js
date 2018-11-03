@@ -8,18 +8,17 @@ const { getDirectoryContents, getFileContents, getHomeDirectory } = require("./f
 const RESET_DELAY = 15000;
 const SHOW_DURATION = 15000;
 
-let __host = null;
-
-function configureApp(app, emitter, key) {
+function configureHost(host, key) {
+    const { app, emitter } = host;
     let connectCode = null,
-        busy = false,
-        timer;
+        busy = false;
+    host._timer = null;
     const timerReset = () => {
-        clearTimeout(timer);
+        clearTimeout(host._timer);
         connectCode = null;
         busy = true;
         emitter.emit("connectionAvailabilityChanged", { available: false });
-        timer = setTimeout(() => {
+        host._timer = setTimeout(() => {
             busy = false;
             emitter.emit("connectionAvailabilityChanged", { available: true });
         }, RESET_DELAY);
@@ -180,22 +179,23 @@ function configureApp(app, emitter, key) {
 function createHost(port, key) {
     const app = express();
     const emitter = new EventEmitter();
-    configureApp(app, emitter, key);
+    const host = {
+        app,
+        emitter,
+        stop: () => stopHost(host)
+    };
+    configureHost(host, key);
     if (port) {
         app.listen(port);
     }
-    __host = {
-        app,
-        emitter
-    };
-    return __host;
+    return host;
 }
 
-function getHost() {
-    return __host;
+function stopHost(host) {
+    clearTimeout(host._timer);
+    delete host.stop;
 }
 
 module.exports = {
-    createHost,
-    getHost
+    createHost
 };

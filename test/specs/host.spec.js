@@ -8,6 +8,10 @@ describe("host", function() {
         host = getNewApp();
     });
 
+    afterEach(function() {
+        host.stop();
+    });
+
     describe("GET /", function() {
         it("returns expected properties", done => {
             request(host.app)
