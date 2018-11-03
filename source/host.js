@@ -83,6 +83,7 @@ function configureHost(host, key) {
                         .status(500)
                         .send("Internal Server Error");
                 });
+            return;
         } else if (busy && !connectCode) {
             timerReset();
             res

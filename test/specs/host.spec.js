@@ -1,5 +1,6 @@
 const request = require("supertest");
 const { getNewApp } = require("../app.js");
+const { decryptString } = require("../../source/crypto.js");
 
 describe("host", function() {
     let host;
@@ -83,6 +84,34 @@ describe("host", function() {
                 .end((err, res) => {
                     if (err) return done(err);
                     done();
+                });
+        });
+
+        it("responds with an encrypted code when prepared", done => {
+            let code;
+            host.emitter.once("codeReady", result => {
+                code = result.code;
+            });
+            request(host.app)
+                .get("/connect")
+                .expect("Content-Type", /application\/json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    request(host.app)
+                        .get(`/connect/${code}`)
+                        .expect("Content-Type", /application\/json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            if (err) return done(err);
+                            expect(res.body).to.have.property("status", "ok");
+                            decryptString(res.body.payload, code)
+                                .then(result => {
+                                    expect(result).to.equal("testing");
+                                    done();
+                                })
+                                .catch(done);
+                        });
                 });
         });
     });
