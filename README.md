@@ -42,3 +42,5 @@ const host = startFileHost(9998);
 // later
 host.stop();
 ```
+
+More details available in the [API documentation](API.md)

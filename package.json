@@ -4,6 +4,7 @@
   "description": "Secure filesystem host toolkit for Browser-Desktop datasource connection",
   "main": "source/index.js",
   "scripts": {
+    "docs": "jsdoc2md source/**/*.js > API.md",
     "test": "nyc mocha -r test/index.js 'test/specs/**/*.spec.js' --timeout 5000"
   },
   "repository": {
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "supertest": "^3.3.0"

@@ -9,6 +9,21 @@ const { getDirectoryContents, getFileContents, getHomeDirectory } = require("./f
 const RESET_DELAY = 15000;
 const SHOW_DURATION = 15000;
 
+/**
+ * Host instance
+ * @typedef {Object} Host
+ * @property {Object} app - ExpressJS application instance
+ * @property {Object} emitter - Event emitter instance
+ * @property {Object|null} server - ExpressJS server instance
+ * @property {Function=} stop - Method to stop the host from serving
+ */
+
+/**
+ * Configure a host instance
+ * @param {Host} host The host instance
+ * @param {String} key The encryption key
+ * @private
+ */
 function configureHost(host, key) {
     const { app, emitter } = host;
     let connectCode = null,
@@ -186,6 +201,12 @@ function configureHost(host, key) {
     });
 }
 
+/**
+ * Create a new host instance
+ * @param {Number|undefined} port The port to listen on
+ * @param {String} key The encryption key
+ * @returns {Host} A new host instance
+ */
 function createHost(port, key) {
     const app = express();
     const emitter = new EventEmitter();
@@ -202,6 +223,11 @@ function createHost(port, key) {
     return host;
 }
 
+/**
+ * Stop a host instance
+ * @param {Host} host The host instance
+ * @private
+ */
 function stopHost(host) {
     clearTimeout(host._timer);
     if (host.server) {
