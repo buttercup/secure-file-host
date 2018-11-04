@@ -210,5 +210,24 @@ describe("API", function() {
                     done();
                 });
         });
+
+        it("responds with 404 Not Found when reading a non-existant file", done => {
+            encryptString("/not/here.txt", "testing")
+                .then(encrypted => {
+                    encryptedPayload = encrypted;
+                    request(host.app)
+                        .post("/get/file")
+                        .send({
+                            payload: encryptedPayload
+                        })
+                        .expect("Content-Type", /text\/plain/)
+                        .expect(404)
+                        .end((err, res) => {
+                            if (err) return done(err);
+                            done();
+                        });
+                })
+                .catch(done);
+        });
     });
 });

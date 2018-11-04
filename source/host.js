@@ -147,6 +147,13 @@ function configureHost(host, key) {
                     })
                     .catch(err => {
                         console.error(err);
+                        if (err.code === "ENOENT") {
+                            res
+                                .set("Content-Type", "text/plain")
+                                .status(404)
+                                .send("Not Found");
+                            return;
+                        }
                         res
                             .set("Content-Type", "text/plain")
                             .status(500)
