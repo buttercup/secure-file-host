@@ -4,7 +4,7 @@
   "description": "Secure filesystem host toolkit for Browser-Desktop datasource connection",
   "main": "source/index.js",
   "scripts": {
-    "test": "nyc mocha -r test/index.js 'test/specs/**/*.spec.js'"
+    "test": "nyc mocha -r test/index.js 'test/specs/**/*.spec.js' --timeout 5000"
   },
   "repository": {
     "type": "git",
