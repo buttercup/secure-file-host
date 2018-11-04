@@ -1,5 +1,6 @@
 const path = require("path");
 const request = require("supertest");
+const getHomeDirectory = require("home-dir");
 const { getNewApp } = require("../app.js");
 const { decryptString, encryptString } = require("../../source/crypto.js");
 
@@ -228,6 +229,25 @@ describe("API", function() {
                         });
                 })
                 .catch(done);
+        });
+    });
+
+    describe("GET /get/homedir", function() {
+        it("responds with home directory", done => {
+            request(host.app)
+                .get("/get/homedir")
+                .expect("Content-Type", /application\/json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.body).to.have.property("status", "ok");
+                    decryptString(res.body.payload, "testing")
+                        .then(homeDir => {
+                            expect(homeDir).to.equal(getHomeDirectory());
+                            done();
+                        })
+                        .catch(done);
+                });
         });
     });
 });
