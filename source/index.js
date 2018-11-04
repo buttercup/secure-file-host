@@ -1,13 +1,11 @@
-const { createHost, getHost } = require("./host.js");
+const { createHost } = require("./host.js");
 const { generateCipherKey } = require("./code.js");
 
 function startFileHost(port, key = generateCipherKey()) {
-    createHost(port, key);
-    const { emitter } = getHost();
-    return {
-        emitter,
+    const  = createHost(port, key);
+    return Object.assign({
         key
-    };
+    }, host);
 }
 
 module.exports = {

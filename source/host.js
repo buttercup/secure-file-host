@@ -192,17 +192,21 @@ function createHost(port, key) {
     const host = {
         app,
         emitter,
+        server: null,
         stop: () => stopHost(host)
     };
     configureHost(host, key);
     if (port) {
-        app.listen(port);
+        host.server = app.listen(port);
     }
     return host;
 }
 
 function stopHost(host) {
     clearTimeout(host._timer);
+    if (host.server) {
+        host.server.close();
+    }
     delete host.stop;
 }
 
