@@ -44,3 +44,13 @@ host.stop();
 ```
 
 More details available in the [API documentation](API.md)
+
+### Emitted events
+
+The returned `host` object contains an `emitter` property, which is an event emitter instance. It emits the following events:
+
+| Event Slug    | Schedule               | Description                                               |
+|---------------|------------------------|-----------------------------------------------------------|
+| `codeReady`   | On client connect      | A client has connected and is awaiting a code to be presented so that the **user** can enter it in the other application's interface. |
+| `connectionAvailabilityChanged` | When the status of the host in terms of it accepting new connections changes | Called with an object like `{ available: true }` when the availability of the host changes. It will be fired with `{ available: false }` when someone is trying to connect, and it will stay unavailable until it is either connected or cancelled. If a wrong code is attempted it will stay unavailable for a further 15 seconds. |
+| `connected`   |  When connection and handshake procedures have been completed | When the entire handshake procedure has been completed successfully the `connected` event is fired with no arguments. |
