@@ -1,5 +1,10 @@
 # Secure File Host changelog
 
+## v0.1.2
+_2018-11-14_
+
+ * Add `connectionFailed` event
+
 ## v0.1.1
 _2018-11-14_
 

@@ -40,6 +40,7 @@ function configureHost(host, key) {
         clearTimeout(host._timer);
         connectCode = null;
         busy = true;
+        emitter.emit("connectionFailed");
         emitter.emit("connectionAvailabilityChanged", { available: false });
         host._timer = setTimeout(() => {
             busy = false;

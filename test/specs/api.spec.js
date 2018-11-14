@@ -89,6 +89,15 @@ describe("API", function() {
                 });
         });
 
+        it("emits 'connectionFailed' when wrong code entered", done => {
+            host.emitter.once("connectionFailed", done);
+            request(host.app)
+                .get("/connect/ABC123")
+                .end((err, res) => {
+                    if (err) return done(err);
+                });
+        });
+
         it("responds with an encrypted code when prepared", done => {
             let code;
             host.emitter.once("codeReady", result => {
