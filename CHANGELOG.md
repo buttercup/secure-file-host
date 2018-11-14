@@ -1,5 +1,10 @@
 # Secure File Host changelog
 
+## v0.1.3
+_2018-11-14_
+
+ * Add `/put/file` API method
+
 ## v0.1.2
 _2018-11-14_
 
