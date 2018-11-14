@@ -1,6 +1,6 @@
 {
   "name": "@buttercup/secure-file-host",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Secure filesystem host toolkit for Browser-Desktop datasource connection",
   "main": "source/index.js",
   "scripts": {
