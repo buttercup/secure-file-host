@@ -1,8 +1,14 @@
 const path = require("path");
+const fs = require("fs");
 const request = require("supertest");
+const pify = require("pify");
 const getHomeDirectory = require("home-dir");
+const rimrafC = require("rimraf");
 const { getNewApp } = require("../app.js");
 const { decryptString, encryptString } = require("../../source/crypto.js");
+
+const rimraf = pify(rimrafC);
+const readFile = pify(fs.readFile);
 
 describe("API", function() {
     let host;
@@ -238,6 +244,44 @@ describe("API", function() {
                         });
                 })
                 .catch(done);
+        });
+    });
+
+    describe("POST /put/file", function() {
+        const TARGET_FILE = path.resolve(__dirname, "../assets/putfile.txt");
+        let encryptedPayload;
+
+        beforeEach(function() {
+            return rimraf(TARGET_FILE)
+                .then(() => encryptString(JSON.stringify({
+                    filename: TARGET_FILE,
+                    contents: "my cool contents"
+                }), "testing"))
+                .then(encrypted => {
+                    encryptedPayload = encrypted;
+                });
+        });
+
+        afterEach(function() {
+            return rimraf(TARGET_FILE);
+        });
+
+        it("writes contents of file", done => {
+            request(host.app)
+                .post("/put/file")
+                .send({
+                    payload: encryptedPayload
+                })
+                .expect("Content-Type", /application\/json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.body).to.have.property("status", "ok");
+                    readFile(TARGET_FILE, "utf8").then(contents => {
+                        expect(contents).to.equal("my cool contents");
+                        done();
+                    }).catch(done);
+                });
         });
     });
 

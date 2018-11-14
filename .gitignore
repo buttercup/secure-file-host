@@ -2,4 +2,5 @@
 .vscode
 .history
 .nyc_output
+assets/putfile.txt
 node_modules

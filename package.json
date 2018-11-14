@@ -36,6 +36,7 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
+    "rimraf": "^2.6.2",
     "supertest": "^3.3.0"
   }
 }

@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const pkgInfo = require("../package.json");
 const { generateConnectCode } = require("./code.js");
 const { decryptString, encryptString } = require("./crypto.js");
-const { getDirectoryContents, getFileContents, getHomeDirectory } = require("./filesystem.js");
+const { getDirectoryContents, getFileContents, getHomeDirectory, putFileContents } = require("./filesystem.js");
 
 const RESET_DELAY = 15000;
 const SHOW_DURATION = 15000;
@@ -177,6 +177,33 @@ function configureHost(host, key) {
                                 .send("Not Found");
                             return;
                         }
+                        res
+                            .set("Content-Type", "text/plain")
+                            .status(500)
+                            .send("Internal Server Error");
+                    });
+            })
+            .catch(err => {
+                console.error(err);
+                res
+                    .set("Content-Type", "text/plain")
+                    .status(401)
+                    .send("Unauthorized");
+            });
+    });
+    app.post("/put/file", (req, res) => {
+        const { payload } = req.body;
+        decryptString(payload, key)
+            .then(JSON.parse)
+            .then(({ contents, filename }) => {
+                return putFileContents(filename, contents)
+                    .then(() => {
+                        res.send(JSON.stringify({
+                            status: "ok"
+                        }));
+                    })
+                    .catch(err => {
+                        console.error(err);
                         res
                             .set("Content-Type", "text/plain")
                             .status(500)

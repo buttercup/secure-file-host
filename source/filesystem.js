@@ -6,6 +6,7 @@ const getHomeDirectory = require("home-dir");
 const readDir = pify(fs.readdir);
 const readFile = pify(fs.readFile);
 const stat = pify(fs.stat);
+const writeFile = pify(fs.writeFile);
 
 function getDirectoryContents(dir) {
     return readDir(dir)
@@ -31,8 +32,13 @@ function getFileContents(path) {
     return readFile(path, "utf8");
 }
 
+function putFileContents(path, contents) {
+    return writeFile(path, contents, "utf8");
+}
+
 module.exports = {
     getDirectoryContents,
     getFileContents,
-    getHomeDirectory
+    getHomeDirectory,
+    putFileContents
 };
