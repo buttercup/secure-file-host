@@ -43,6 +43,8 @@ const host = startFileHost(9998);
 host.stop();
 ```
 
+If a user wants to cancel the handskahe procedure, make sure to call the `host.cancel()` method to prevent a deadlock.
+
 More details available in the [API documentation](API.md)
 
 ### Emitted events
