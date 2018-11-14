@@ -16,6 +16,7 @@ const SHOW_DURATION = 15000;
  * @property {Object} emitter - Event emitter instance
  * @property {Object|null} server - ExpressJS server instance
  * @property {Function=} stop - Method to stop the host from serving
+ * @property {Function} cancel - Method to cancel the current connection attempt
  */
 
 /**
@@ -29,6 +30,12 @@ function configureHost(host, key) {
     let connectCode = null,
         busy = false;
     host._timer = null;
+    host.cancel = () => {
+        clearTimeout(host._timer);
+        connectCode = null;
+        busy = false;
+        emitter.emit("connectionAvailabilityChanged", { available: true });
+    };
     const timerReset = () => {
         clearTimeout(host._timer);
         connectCode = null;
