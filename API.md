@@ -81,4 +81,5 @@ Host instance
 | emitter | <code>Object</code> | Event emitter instance |
 | server | <code>Object</code> \| <code>null</code> | ExpressJS server instance |
 | [stop] | <code>function</code> | Method to stop the host from serving |
+| cancel | <code>function</code> | Method to cancel the current connection attempt |
 
