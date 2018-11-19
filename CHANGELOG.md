@@ -1,5 +1,10 @@
 # Secure File Host changelog
 
+## v0.2.0
+_2018-11-19_
+
+ * Filter out dot-prefixed _hidden_ files and folders
+
 ## v0.1.3
 _2018-11-14_
 
