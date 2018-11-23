@@ -1,23 +1,23 @@
 matrix:
   include:
     - language: node_js
-      script: npm run test:ci:node
+      script: npm test
       node_js: "stable"
       env:
         - NAME="Node stable"
     - language: node_js
-      script: npm run test:ci:node
+      script: npm test
       node_js: 10
       env:
         - NAME="Node 9"
     - language: node_js
-      script: npm run test:ci:node
+      script: npm test
       node_js: 8
       env:
         - NAME="Node 8"
     - language: node_js
       os: windows
-      script: npm run test:ci:node
+      script: npm test
       node_js: 10
       env:
         - NAME="Node 10 (Win)"
