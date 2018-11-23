@@ -5,7 +5,7 @@
   "main": "source/index.js",
   "scripts": {
     "docs": "jsdoc2md source/**/*.js > API.md",
-    "test": "nyc mocha -r test/index.js --recursive './test/specs/*.spec.js' --timeout 5000"
+    "test": "nyc mocha -r test/index.js --recursive test/specs/*.spec.js --timeout 5000"
   },
   "repository": {
     "type": "git",
