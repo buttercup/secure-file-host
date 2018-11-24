@@ -5,6 +5,7 @@
   "main": "source/index.js",
   "scripts": {
     "docs": "jsdoc2md source/**/*.js > API.md",
+    "start": "node test/standalone.js",
     "test": "nyc mocha -r test/index.js --recursive test/specs/*.spec.js --timeout 5000"
   },
   "repository": {
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chalk": "^2.4.1",
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",

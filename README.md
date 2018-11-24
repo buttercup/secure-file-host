@@ -47,6 +47,10 @@ If a user wants to cancel the handskahe procedure, make sure to call the `host.c
 
 More details available in the [API documentation](API.md)
 
+### Debugging
+
+You can run a debug server that uses the host by running `npm start`. You can stop the server by pressing `Ctrl+C`.
+
 ### Emitted events
 
 The returned `host` object contains an `emitter` property, which is an event emitter instance. It emits the following events:
