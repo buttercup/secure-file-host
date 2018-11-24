@@ -1,5 +1,10 @@
 # Secure File Host changelog
 
+## v0.2.1
+_2018-11-24_
+
+ * **Bugfix**: `/get/directory` would fail on Windows
+
 ## v0.2.0
 _2018-11-19_
 
