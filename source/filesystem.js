@@ -20,10 +20,14 @@ function getDirectoryContents(dir) {
                     isFile: stat.isFile(),
                     isDirectory: stat.isDirectory()
                 }))
+                .catch(err => {
+                    console.error(`Error while trying to stat file: ${path.join(dir, filename)} (${err.message})`);
+                    return null;
+                })
         )))
         .then(contents =>
             contents
-                .filter(item => (item.isDirectory || item.isFile) && FILES_TO_HIDE.test(item.name) === false)
+                .filter(item => item && (item.isDirectory || item.isFile) && FILES_TO_HIDE.test(item.name) === false)
                 .map(dirEnt => ({
                     name: dirEnt.name,
                     directory: dirEnt.directory,
