@@ -49,7 +49,7 @@ function getFileContents(path) {
 function putFileContents(path, contents) {
     // windows paths must have at least 3 parts due to drive letter
     // 2 or less parts mean script is write to a path that doesn't exist
-    if (IS_WINDOWS && path.split('/').length <= 2) {
+    if (IS_WINDOWS && path.indexOf('\\') === -1 && path.split('/').length <= 2) {
         return Promise.reject(new Error(`Can't write files on Windows root path`));
     }
     return writeFile(normalizePath(path), contents, "utf8");
@@ -98,9 +98,20 @@ function handleWindowsRootPath(dir) {
         });
 }
 
+// convert unix like path to windows path
 function normalizeWindowsPath(dir) {
+    // ignore proper windows path
+    if (dir.indexOf('\\') > -1) {
+        return path.normalize(dir);
+    }
+
+    // replace drive letter from /c/ to c:/
     const drive = dir.substring(1, 2) + ':';
+
+    // grab rest of the path
     const filePath = dir.substring(2) || '/';
+
+    // convert path to Windows format
     return path.join(drive, filePath);
 }
 
