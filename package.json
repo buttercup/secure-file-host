@@ -25,20 +25,20 @@
   },
   "homepage": "https://github.com/buttercup/secure-file-host#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "eventemitter3": "^3.1.0",
-    "express": "^4.16.4",
+    "body-parser": "^1.19.0",
+    "eventemitter3": "^4.0.7",
+    "express": "^4.17.1",
     "home-dir": "^1.0.0",
     "iocane": "^1.0.2",
-    "pify": "^4.0.1"
+    "pify": "^5.0.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chalk": "^2.4.1",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "rimraf": "^2.6.2",
-    "supertest": "^3.3.0"
+    "chai": "^4.3.3",
+    "chalk": "^4.1.0",
+    "jsdoc-to-markdown": "^7.0.0",
+    "mocha": "^8.3.1",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "supertest": "^6.1.3"
   }
 }
