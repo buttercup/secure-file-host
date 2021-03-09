@@ -1,5 +1,10 @@
 # Secure File Host changelog
 
+## v0.3.0
+_2021-03-09_
+
+ * Dependency updates
+
 ## v0.2.1
 _2018-11-24_
 
